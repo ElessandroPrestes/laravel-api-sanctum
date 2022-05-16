@@ -9,11 +9,11 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
 
-    
+    use RefreshDatabase;
     /** @test */
     public function required_fields_for_registration()
     {
-        $this->json('POST', 'api/create', ['Accept' => 'application/json'])
+        $this->json('POST', 'api/auth/register', ['Accept' => 'application/json'])
         ->assertStatus(422)
             ->assertJson([
                 "message" => "The given data was invalid.",
@@ -34,7 +34,7 @@ class AuthTest extends TestCase
             "password" => "eusouinevitavel"
         ];
 
-        $this->json('POST', 'api/create', $data, ['Accept' => 'application/json'])
+        $this->json('POST', 'api/auth/register', $data, ['Accept' => 'application/json'])
         ->assertStatus(422)
             ->assertJson([
                 "message" => "The given data was invalid.",
@@ -56,7 +56,7 @@ class AuthTest extends TestCase
             
         ];
 
-        $this->json('POST', 'api/create', $data, ['Accept' => 'application/json'])
+        $this->json('POST', 'api/auth/register', $data, ['Accept' => 'application/json'])
         ->assertStatus(201)
             ->assertJsonStructure([
                 "user" => [
